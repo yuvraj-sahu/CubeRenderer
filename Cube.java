@@ -2,9 +2,18 @@
 class Cube {
 
     //Static data from Cube
+
+    /*
+     * For a reset cube:
+     * - The X axis is horizontal
+     * - The Y axis is vertical
+     * - The Z axis is faced towards the camera
+     *
+     * As the cube rotates, the axes stay in the same place relative to the camera
+     */
     public enum RotationalAxis {X, Y, Z}
 
-    //Will be used by the graphed cube
+    // Variables faces and edges will be used by the graphed cube
     final static int[][] faces = {
             {0, 1, 3, 2},
             {0, 1, 5, 4},
@@ -29,12 +38,17 @@ class Cube {
             {6, 4}
     };
 
-    //Instance variables of the cube
-    private final double length;
+    // Instance variables of the cube
+    // min and max are the minimum/maximum coordinate values for all points for a reset cube
+    private final double length, min, max;
     private Point[] vertices;
 
+    // Constructs the cube
     public Cube(double sideLength) {
         length = sideLength;
+        min = -length / 2.0;
+        max = length / 2.0;
+
         vertices = new Point[8];
 
         for (int i = 0; i < 8; i++) {
@@ -44,9 +58,8 @@ class Cube {
         resetPoints();
     }
 
+    // Sets/resets the locations of the points
     public void resetPoints() {
-        double min = -length / 2.0;
-        double max = length / 2.0;
 
         vertices[0].setAll(min, min, min);
         vertices[1].setAll(max, min, min);
@@ -58,27 +71,30 @@ class Cube {
         vertices[7].setAll(max, max, max);
     }
 
-    public void rotate(RotationalAxis dir, double degreesChange) {
+    // Rotates the cube on a specified axis by a certain amount of radians
+    // See the description above the declaration of RotationalAxis for
+    // more information on how the cube rotates
+    public void rotate(RotationalAxis dir, double radiansChange) {
         if (dir == RotationalAxis.Y) {
             for (Point p : vertices) {
                 double dist = Math.sqrt(p.getX() * p.getX() + p.getZ() * p.getZ());
-                double updatedDegrees = Math.atan2(p.getZ(), p.getX());
-                p.setZ(dist * Math.sin(updatedDegrees));
-                p.setX(dist * Math.cos(updatedDegrees));
+                double updatedRadians = Math.atan2(p.getZ(), p.getX()) + radiansChange;
+                p.setZ(dist * Math.sin(updatedRadians));
+                p.setX(dist * Math.cos(updatedRadians));
             }
         } else if (dir == RotationalAxis.X) {
             for (Point p : vertices) {
                 double dist = Math.sqrt(p.getZ() * p.getZ() + p.getY() * p.getY());
-                double updatedDegrees = Math.atan2(p.getY(), p.getZ()) + degreesChange;
-                p.setY(dist * Math.sin(updatedDegrees));
-                p.setZ(dist * Math.cos(updatedDegrees));
+                double updatedRadians = Math.atan2(p.getY(), p.getZ()) + radiansChange;
+                p.setY(dist * Math.sin(updatedRadians));
+                p.setZ(dist * Math.cos(updatedRadians));
             }
         } else if (dir == RotationalAxis.Z) {
             for (Point p : vertices) {
                 double dist = Math.sqrt(p.getX() * p.getX() + p.getY() * p.getY());
-                double updatedDegrees = Math.atan2(p.getY(), p.getX());
-                p.setY(dist * Math.sin(updatedDegrees));
-                p.setX(dist * Math.cos(updatedDegrees));
+                double updatedRadians = Math.atan2(p.getY(), p.getX()) + radiansChange;
+                p.setY(dist * Math.sin(updatedRadians));
+                p.setX(dist * Math.cos(updatedRadians));
             }
         }
     }
@@ -87,6 +103,8 @@ class Cube {
     public Point[] getVertices() {
         return vertices.clone();
     }
+
+    //These methods are not used anywhere but are helpful methods to have for users
 
     public String toString() {
         StringBuilder builder = new StringBuilder();
@@ -99,9 +117,8 @@ class Cube {
         return builder.toString();
     }
 
-
-    //These methods are not used anywhere but are helpful methods to have for users
     public double getLength() { return length; }
+
     public Point getVertex(int index) { return vertices[index].clone(); }
 
 }

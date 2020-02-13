@@ -4,7 +4,7 @@ import java.awt.*;
 public class GraphHelper extends Canvas {
 
     JFrame frame; //This is not private so that classes that extend this class can have more choice
-    Graphics2D graphics;
+    Graphics2D graphics; //This will be used by the subclass
 
     final static int DEFAULT_WINDOW_DIMENSION = 500;
     final static String DEFAULT_WINDOW_NAME = "My Drawing";

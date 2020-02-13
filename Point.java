@@ -24,12 +24,14 @@ class Point {
         z = zValue;
     }
 
-    public String toString() {
-        return "(" + x + ", " + y + ", " + z + ")";
-    }
-
+    //Allows for a point to be clone so that the original point is not edited
     public Point clone() {
         return new Point(x, y, z);
+    }
+
+    //This is not used in the program but could be helpful for users
+    public String toString() {
+        return "(" + x + ", " + y + ", " + z + ")";
     }
 
 }
