@@ -1,5 +1,5 @@
 //3D Cube
-class Cube {
+public class Cube {
 
     //Static data from Cube
 

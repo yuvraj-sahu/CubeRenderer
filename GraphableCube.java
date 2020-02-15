@@ -4,10 +4,15 @@ import java.awt.event.KeyListener;
 
 public class GraphableCube extends GraphHelper implements KeyListener {
 
-    private int xDistToCenter, yDistToCenter; //Will need to change later with panning
     private Cube cube;
-    private int rotationInterval = 15; //Will be controlled by keys in future updates
 
+    private int xDistToCenter, yDistToCenter;
+    private int rotationInterval = 15; //Will be controlled by keys in future updates
+    private int translationInterval = 50; //Will also be controlled by keys in future updates
+
+    private boolean shiftPressed = false;
+
+    //Constructor
     GraphableCube(String frameTitle, double cubeLength, int windowWidth, int windowHeight) {
         super(frameTitle, windowWidth, windowHeight);
         addKeyListener(this);
@@ -16,11 +21,13 @@ public class GraphableCube extends GraphHelper implements KeyListener {
         yDistToCenter = windowHeight / 2;
     }
 
+    //Erases the entire screen
     public void erase(Graphics g) {
         g.setColor(Color.WHITE);
         g.fillRect(0, 0, getWidth(), getHeight());
     }
 
+    //Paints the cube outline
     public void paint(Graphics g) {
         erase(g);
         g.setColor(Color.BLACK);
@@ -41,26 +48,45 @@ public class GraphableCube extends GraphHelper implements KeyListener {
         paint(graphics);
     }
 
+    public void translateAndPaint(boolean isXAxis, double amount) {
+        if (isXAxis) { xDistToCenter += amount; }
+        else { yDistToCenter += amount; }
+
+        paint(graphics);
+    }
+
     public void keyTyped(KeyEvent event) {}
 
-    public void keyReleased(KeyEvent event) {}
+    public void keyReleased(KeyEvent event) {
+        if (event.getKeyCode() == KeyEvent.VK_SHIFT) {
+            shiftPressed = false;
+        }
+    }
 
     public void keyPressed(KeyEvent event) {
         switch(event.getKeyCode()) {
+            case KeyEvent.VK_SHIFT : {
+                shiftPressed = true;
+                break;
+            }
             case 'W' : {
-                rotateAndPaint(Cube.RotationalAxis.X, rotationInterval);
+                if (!shiftPressed) { rotateAndPaint(Cube.RotationalAxis.X, rotationInterval); }
+                else { translateAndPaint(false, -translationInterval); }
                 break;
             }
             case 'S' : {
-                rotateAndPaint(Cube.RotationalAxis.X, -rotationInterval);
+                if (!shiftPressed) { rotateAndPaint(Cube.RotationalAxis.X, -rotationInterval); }
+                else { translateAndPaint(false, translationInterval); }
                 break;
             }
             case 'D' : {
-                rotateAndPaint(Cube.RotationalAxis.Y, rotationInterval);
+                if (!shiftPressed) { rotateAndPaint(Cube.RotationalAxis.Y, rotationInterval); }
+                else { translateAndPaint(true, translationInterval); }
                 break;
             }
             case 'A' : {
-                rotateAndPaint(Cube.RotationalAxis.Y, -rotationInterval);
+                if (!shiftPressed) { rotateAndPaint(Cube.RotationalAxis.Y, -rotationInterval); }
+                else { translateAndPaint(true, -translationInterval); }
                 break;
             }
             case KeyEvent.VK_RIGHT : {

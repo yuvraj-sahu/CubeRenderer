@@ -1,5 +1,5 @@
 //3D Point
-class Point {
+public class Point {
 
     private double x, y, z; //Stores values of the 3 dimensions
 
