@@ -23,21 +23,6 @@ public class Cube {
             {4, 5, 7, 6}
     };
 
-    final static int[][] edges = {
-            {0, 1},
-            {1, 3},
-            {3, 2},
-            {2, 0},
-            {0, 4},
-            {1, 5},
-            {3, 7},
-            {2, 6},
-            {4, 5},
-            {5, 7},
-            {7, 6},
-            {6, 4}
-    };
-
     // Instance variables of the cube
     // min and max are the minimum/maximum coordinate values for all points for a reset cube
     private final double length, min, max;
@@ -131,7 +116,7 @@ public class Cube {
             //If the center of the face is in front of the origin,
             //then it is showing
 
-            //I used 1e-9 as a constant to account for floating-point error
+            //I used 1e-9 as a constant to account for possible floating-point error
             if (centers[i].getZ() > 1e-9) {
                 tempShowedFaces[index] = i;
                 index++;
@@ -148,7 +133,7 @@ public class Cube {
     //These methods are not used anywhere but are helpful methods to have for users
 
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        StringBuilder builder = new StringBuilder("Cube\nLength: " + length);
         for (int i = 0; i < vertices.length; i++) {
             builder.append("Point ");
             builder.append(i);
@@ -162,5 +147,21 @@ public class Cube {
 
     //Clones vertex to avoid editing of the actual point
     public Point getVertex(int index) { return vertices[index].clone(); }
+
+    //Not currently used (was originally used for drawing the outline)
+    final static int[][] edges = {
+            {0, 1},
+            {1, 3},
+            {3, 2},
+            {2, 0},
+            {0, 4},
+            {1, 5},
+            {3, 7},
+            {2, 6},
+            {4, 5},
+            {5, 7},
+            {7, 6},
+            {6, 4}
+    };
 
 }

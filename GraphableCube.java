@@ -1,7 +1,6 @@
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.Arrays;
 
 public class GraphableCube extends GraphHelper implements KeyListener {
 
@@ -31,13 +30,33 @@ public class GraphableCube extends GraphHelper implements KeyListener {
             Color.GREEN
     };
 
-    //Constructor
-    GraphableCube(String frameTitle, double cubeLength, int windowWidth, int windowHeight) {
-        super(frameTitle, windowWidth, windowHeight);
+    //This does all of the setup work
+    private void setup(double cubeLength) {
         addKeyListener(this);
         cube = new Cube(cubeLength);
-        xDistToCenter = windowWidth / 2;
-        yDistToCenter = windowHeight / 2;
+        xDistToCenter = getWidth() / 2;
+        yDistToCenter = getHeight() / 2;
+    }
+
+    //Constructors
+    public GraphableCube(String frameTitle, int windowWidth, int windowHeight, double cubeLength) {
+        super(frameTitle, windowWidth, windowHeight);
+        setup(cubeLength);
+    }
+
+    public GraphableCube(String frameTitle, double cubeLength) {
+        super(frameTitle);
+        setup(cubeLength);
+    }
+
+    public GraphableCube(int windowWidth, int windowHeight, double cubeLength) {
+        super(windowWidth, windowHeight);
+        setup(cubeLength);
+    }
+
+    public GraphableCube(double cubeLength) {
+        //Calls super() by default
+        setup(cubeLength);
     }
 
     //Erases the entire screen
