@@ -21,7 +21,7 @@ public class GraphableCube extends GraphHelper implements KeyListener {
 
     private boolean shiftPressed = false;
 
-    public static final Color[] faceColors = {
+    public static final Color[] DEFAULT_FACE_COLORS = {
             Color.YELLOW,
             new Color(255, 127, 0), //Orange
             Color.RED,
@@ -29,6 +29,8 @@ public class GraphableCube extends GraphHelper implements KeyListener {
             Color.BLUE,
             Color.GREEN
     };
+
+    public final Color[] faceColors;
 
     //This does all of the setup work
     private void setup(double cubeLength) {
@@ -39,24 +41,59 @@ public class GraphableCube extends GraphHelper implements KeyListener {
     }
 
     //Constructors
-    public GraphableCube(String frameTitle, int windowWidth, int windowHeight, double cubeLength) {
-        super(frameTitle, windowWidth, windowHeight);
+
+    public GraphableCube(double cubeLength) {
+        //Calls super() by default
         setup(cubeLength);
+        this.faceColors = DEFAULT_FACE_COLORS;
     }
 
     public GraphableCube(String frameTitle, double cubeLength) {
         super(frameTitle);
         setup(cubeLength);
+        this.faceColors = DEFAULT_FACE_COLORS;
     }
 
     public GraphableCube(int windowWidth, int windowHeight, double cubeLength) {
         super(windowWidth, windowHeight);
         setup(cubeLength);
+        this.faceColors = DEFAULT_FACE_COLORS;
     }
 
-    public GraphableCube(double cubeLength) {
+    public GraphableCube(String frameTitle, int windowWidth, int windowHeight, double cubeLength) {
+        super(frameTitle, windowWidth, windowHeight);
+        setup(cubeLength);
+        this.faceColors = DEFAULT_FACE_COLORS;
+    }
+
+    public GraphableCube(Color[] faceColors, double cubeLength) {
         //Calls super() by default
         setup(cubeLength);
+        this.faceColors = faceColors;
+    }
+
+    public GraphableCube(String frameTitle, Color[] faceColors, double cubeLength) {
+        super(frameTitle);
+        setup(cubeLength);
+        this.faceColors = faceColors;
+    }
+
+    public GraphableCube(int windowWidth, int windowHeight, Color[] faceColors, double cubeLength) {
+        super(windowWidth, windowHeight);
+        setup(cubeLength);
+        this.faceColors = faceColors;
+    }
+
+    public GraphableCube(String frameTitle, int windowWidth, int windowHeight, Color[] faceColors, double cubeLength) {
+        super(frameTitle, windowWidth, windowHeight);
+        setup(cubeLength);
+        this.faceColors = faceColors;
+    }
+
+    //End of constructors
+
+    public void dispose() {
+        frame.dispose();
     }
 
     //Erases the entire screen
@@ -154,6 +191,14 @@ public class GraphableCube extends GraphHelper implements KeyListener {
         paint(graphics);
     }
 
+    public void disableKeyListener() {
+        removeKeyListener(this);
+    }
+
+    public void addKeyListener() {
+        addKeyListener(this);
+    }
+
     //Just used to define the method from KeyListener
     public void keyTyped(KeyEvent event) {}
 
@@ -179,8 +224,8 @@ public class GraphableCube extends GraphHelper implements KeyListener {
     Shift+D - positive X translation
     Shift+A - negative X translation
 
-    Right_Arrow - positive Z rotation
-    Left_Arrow - negative Z rotation
+    Right_Arrow (and Shift+Right_Arrow) - positive Z rotation
+    Left_Arrow (and Shift+Left_Arrow) - negative Z rotation
 
     Up_Arrow - increased rotation interval
     Down_Arrow - decreased rotation interval
