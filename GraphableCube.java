@@ -21,79 +21,15 @@ public class GraphableCube extends GraphHelper implements KeyListener {
 
     private boolean shiftPressed = false;
 
-    public static final Color[] DEFAULT_FACE_COLORS = {
-            Color.YELLOW,
-            new Color(255, 127, 0), //Orange
-            Color.RED,
-            new Color(127, 0, 255), //Purple
-            Color.BLUE,
-            Color.GREEN
-    };
-
     public final Color[] faceColors;
 
-    //This does all of the setup work
-    private void setup(double cubeLength) {
+    public GraphableCube(double cubeLength, Color[] faceColors, int windowWidth, int windowHeight, String frameTitle) {
+        super(frameTitle, windowWidth, windowHeight);
         addKeyListener(this);
         cube = new Cube(cubeLength);
         xDistToCenter = getWidth() / 2;
         yDistToCenter = getHeight() / 2;
-    }
-
-    //Constructors
-
-    public GraphableCube(double cubeLength) {
-        //Calls super() by default
-        setup(cubeLength);
-        this.faceColors = DEFAULT_FACE_COLORS;
-    }
-
-    public GraphableCube(String frameTitle, double cubeLength) {
-        super(frameTitle);
-        setup(cubeLength);
-        this.faceColors = DEFAULT_FACE_COLORS;
-    }
-
-    public GraphableCube(int windowWidth, int windowHeight, double cubeLength) {
-        super(windowWidth, windowHeight);
-        setup(cubeLength);
-        this.faceColors = DEFAULT_FACE_COLORS;
-    }
-
-    public GraphableCube(String frameTitle, int windowWidth, int windowHeight, double cubeLength) {
-        super(frameTitle, windowWidth, windowHeight);
-        setup(cubeLength);
-        this.faceColors = DEFAULT_FACE_COLORS;
-    }
-
-    public GraphableCube(Color[] faceColors, double cubeLength) {
-        //Calls super() by default
-        setup(cubeLength);
         this.faceColors = faceColors;
-    }
-
-    public GraphableCube(String frameTitle, Color[] faceColors, double cubeLength) {
-        super(frameTitle);
-        setup(cubeLength);
-        this.faceColors = faceColors;
-    }
-
-    public GraphableCube(int windowWidth, int windowHeight, Color[] faceColors, double cubeLength) {
-        super(windowWidth, windowHeight);
-        setup(cubeLength);
-        this.faceColors = faceColors;
-    }
-
-    public GraphableCube(String frameTitle, int windowWidth, int windowHeight, Color[] faceColors, double cubeLength) {
-        super(frameTitle, windowWidth, windowHeight);
-        setup(cubeLength);
-        this.faceColors = faceColors;
-    }
-
-    //End of constructors
-
-    public void dispose() {
-        frame.dispose();
     }
 
     //Erases the entire screen
@@ -296,6 +232,7 @@ public class GraphableCube extends GraphHelper implements KeyListener {
             }
             case KeyEvent.VK_SPACE : {
                 cube.resetPoints();
+                paint(graphics);
             }
         }
     }
